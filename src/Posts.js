@@ -12,8 +12,11 @@ export default function Posts() {
             })
     }, [])
 
-    const searchData = (value) => {
-        setSearchTerm(value)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("s",e.target.name.value)
+        const titleInput = e.target.name.value
+        setSearchTerm(titleInput)
         if (searchTerm !== '') {
             const filteredData = APIData.filter((item) => {
                 return Object.values(item).join('').toLowerCase().includes(searchTerm.toLowerCase())
@@ -25,14 +28,18 @@ export default function Posts() {
         }
     }
 
+
+
     return (
         <div style={{ padding: 20 }}>
+            <form onSubmit={handleSubmit}>
             <Input icon='search'
                 placeholder='Search...'
-                onChange={(e) => searchData(e.target.value)}
+                name='name'
             />
 
-            <Button onClick={searchData} className='mx-2'>Click</Button>
+            <Button className='mx-2'>Click</Button>
+            </form>
             <Card.Group itemsPerRow={3} style={{ marginTop: 20 }}>
                 {searchTerm.length > 1 ? (
                     filteredResults.map((item) => {
